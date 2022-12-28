@@ -4,6 +4,7 @@ const cors = require('cors');
 const { default: mongoose } = require('mongoose');
 require('dotenv').config();
 const userRoute = require('./routers/userRoute');
+const taskRoute = require('./routers/taskRoute');
 
 
 //midleware 
@@ -12,6 +13,7 @@ app.use(express.json());
 
 //route midleware
 app.use('/api/auth', userRoute);
+app.use('/api', taskRoute);
 
 //home route
 app.get('/', async (req, res) => {
