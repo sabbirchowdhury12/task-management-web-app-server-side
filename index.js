@@ -5,15 +5,22 @@ const { default: mongoose } = require('mongoose');
 require('dotenv').config();
 const userRoute = require('./routers/userRoute');
 const taskRoute = require('./routers/taskRoute');
+const path = require("path");
+const port = process.env.PORT || 5000;
 
 
 //midleware 
 app.use(cors());
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
+app.use("/uploads", express.static(path.join(__dirname, "uploads")));
+
 
 //route midleware
 app.use('/api/auth', userRoute);
 app.use('/api', taskRoute);
+
 
 //home route
 app.get('/', async (req, res) => {
@@ -27,7 +34,7 @@ mongoose.connect(process.env.MONGO_URI, {
     useUnifiedTopology: true
 })
     .then(() => {
-        app.listen(process.env.PORT, () => {
+        app.listen(port, () => {
             console.log(`server running on port ${process.env.PORT}`);
         });
     })
